@@ -1,5 +1,6 @@
 import ItemStyles from './styles/ItemStyles';
 import Title from './styles/Title';
+import DeleteProduct from './DeleteProduct';
 import Link from 'next/Link';
 import PriceTag from './styles/PriceTag';
 import formatMoney from '../lib/formatMoney';
@@ -12,5 +13,14 @@ export default function Product({ product}) {
         </Title>
         <PriceTag>{formatMoney(product.price)}</PriceTag>
         <p>{product.description}</p>
+        <div className="buttonList">
+            <Link href={{
+                pathname: 'update',
+                query: {
+                    id: product.id
+                }
+            }}>Edit</Link>
+            <DeleteProduct>Delete</DeleteProduct>
+        </div>
     </ItemStyles>
 }

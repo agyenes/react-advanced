@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import useForm from '../lib/useForm';
 import Form from './styles/Form';
+import Router from 'next/router';
 import gql from 'graphql-tag';
 import DisplayError from './ErrorMessage';
 
@@ -29,7 +30,6 @@ const CREATE_PRODUCT_MUTATION = gql`
     }
 `;
 
-
 export default function CreateProduct() {
     const { inputs, handleChange, clearForm, resetForm } = useForm({
         image: '',
@@ -43,6 +43,9 @@ export default function CreateProduct() {
             e.preventDefault();
             const res = await createProduct();
             clearForm();
+            Router.push({
+                pathName: `/product/${res.data.createProduct.idn}`
+            })
         }}>
             <DisplayError error={error}/>
             <fieldset disabled={loading} aria-busy={loading}>

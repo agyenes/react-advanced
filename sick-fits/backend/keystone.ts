@@ -6,6 +6,7 @@ import { ProductImage } from './schemas/ProductImage';
 import { withItemData, statelessSessions } from '@keystone-next/keystone/session';
 import { createAuth } from '@keystone-next/auth';
 import { insertSeedData } from './seed-data';
+import { sendPasswordResetEmail } from './lib/mail';
 
 const databaseURL = process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorial';
 
@@ -21,6 +22,11 @@ const { withAuth } = createAuth({
     initFirstItem: {
         fields: ['name', 'email', 'password'],
         // add in initial roles here
+    },
+    passwordResetLink: {
+        async sendToken(args) {
+            await sendPasswordResetEmail(args.token, args.identity)
+        }
     }
 });
 
